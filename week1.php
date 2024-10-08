@@ -11,17 +11,46 @@ function fibonacci($input)
 
 function mergeArrays($inputOne, $inputTwo)
 {
-    $result = NULL;
-    for ($i = 0; $i < count($inputOne); $i++) {
-        $result[] = $inputOne[$i];
+    $innerMap = array();
+    $result = array();
+    foreach ($inputOne as $key => $value) {
+        if(!array_key_exists($value, $innerMap)) {
+            $innerMap[$value] = 1;
+            $result[] = $value;
+        }
     }
-    for ($i = 0; $i < count($inputTwo); $i++) {
-        $result[] = $inputTwo[$i];
+    foreach ($inputTwo as $key => $value) {
+        if(!array_key_exists($value, $innerMap)) {
+            $innerMap[$value] = 1;
+            $result[] = $value;
+        }
     }
     return $result;
 }
 
+function intersectArrays($inputOne, $inputTwo)
+{
+    $innerMap = array();
+    $resultMap = array();
+    $result = array();
+    foreach ($inputOne as $key => $value) {
+        if(!array_key_exists($value, $innerMap)) {
+            $innerMap[$value] = 1;
+        }
+    }
+    foreach ($inputTwo as $key => $value) {
+        if(array_key_exists($value, $innerMap)) {
+            if(!array_key_exists($value, $resultMap)) {
+                $resultMap[$value] = 1;
+                $result[] = $value;
+            }
+        }
+    }
+    return $result;
+}
 ?>
 Week 1 - results <br>
 Fibonacci <?php echo fibonacci(5); ?> <br/>
-Arrays Merge: <?php print_r(mergeArrays(['1', '1', '2'], ['2', '3', '1']));?>
+Arrays Merge: <?php print_r(mergeArrays(array('1', '1', '2', '4', '7'), array('2', '3', '1', '9', '6', '4')));?> <br>
+<hr>
+Arrays Intersect: <?php print_r(intersectArrays(array('1', '1', '2', '3', '4', '7', '11'), array('2', '3', '1', '7')));?>
